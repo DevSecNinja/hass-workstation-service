@@ -23,9 +23,6 @@ namespace UserInterface.Views
         public AddSensorDialog()
         {
             this.InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
             DataContext = new AddSensorViewModel();
             this.comboBox = this.FindControl<ComboBox>("ComboBox");
             this.comboBox.Items = Enum.GetValues(typeof(AvailableSensors)).Cast<AvailableSensors>().OrderBy(v => v.ToString());
@@ -56,7 +53,7 @@ namespace UserInterface.Views
         public void ComboBoxClosed(object sender, SelectionChangedEventArgs args)
         {
             var item = ((AddSensorViewModel)this.DataContext);
-            switch (item.SelectedType)
+            switch (this.comboBox.SelectedItem)
             {
                 case AvailableSensors.UserNotificationStateSensor:
                     item.Description = "This sensor watches the UserNotificationState. This is normally used in applications to determine if it is appropriate to send a notification but we can use it to expose this state. \n ";
@@ -152,6 +149,27 @@ namespace UserInterface.Views
                 case AvailableSensors.SessionStateSensor:
                     item.Description = "This sensor returns the state of the Windows session.";
                     item.MoreInfoLink = "https://github.com/sleevezipper/hass-workstation-service#sessionstate";
+                    item.ShowQueryInput = false;
+                    item.ShowWindowNameInput = false;
+                    item.UpdateInterval = 5;
+                    break;
+                case AvailableSensors.CurrentVolumeSensor:
+                    item.Description = "This sensor returns the volume of currently playing audio.";
+                    item.MoreInfoLink = "https://github.com/sleevezipper/hass-workstation-service#currentvolume";
+                    item.ShowQueryInput = false;
+                    item.ShowWindowNameInput = false;
+                    item.UpdateInterval = 5;
+                    break;
+                case AvailableSensors.GPUTemperatureSensor:
+                    item.Description = "This sensor returns the current temperature of the GPU in °C.";
+                    item.MoreInfoLink = "https://github.com/sleevezipper/hass-workstation-service#gputemperature";
+                    item.ShowQueryInput = false;
+                    item.ShowWindowNameInput = false;
+                    item.UpdateInterval = 5;
+                    break;
+                case AvailableSensors.GPULoadSensor:
+                    item.Description = "This sensor returns the current GPU load.";
+                    item.MoreInfoLink = "https://github.com/sleevezipper/hass-workstation-service#gpuload";
                     item.ShowQueryInput = false;
                     item.ShowWindowNameInput = false;
                     item.UpdateInterval = 5;
